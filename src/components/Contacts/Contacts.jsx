@@ -1,13 +1,17 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'store/contactsSlice';
+import { getContacts, getContactsFilter } from 'store/selector';
 
-const Contacts = props => {
-  const { contacts, filter, deleteContact } = props;
+const Contacts = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(getContactsFilter);
+  const contacts = useSelector(getContacts);
 
   const handleDelete = event => {
     const target = event.target;
 
     const id = target.dataset['id'];
-    deleteContact(id);
+    dispatch(deleteContact(id));
   };
 
   const myContacts = contacts
@@ -60,12 +64,6 @@ const Contacts = props => {
       </ul>
     </>
   );
-};
-
-Contacts.propTypes = {
-  contacts: PropTypes.array.isRequired,
-  filter: PropTypes.string.isRequired,
-  deleteContact: PropTypes.func.isRequired,
 };
 
 export default Contacts;
